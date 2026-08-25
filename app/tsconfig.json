@@ -1,0 +1,11 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    // shared/ dosyalarını Node scriptleri de import ediyor, orada .ts uzantısı zorunlu.
+    // Dönüşümü Metro yaptığı için burada bir şey üretilmiyor.
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "**/*.tsx", "../shared/**/*.ts"]
+}
