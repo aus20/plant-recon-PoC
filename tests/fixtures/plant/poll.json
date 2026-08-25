@@ -1,0 +1,176 @@
+{
+  "id": "71dc4b1e-6d8b-4ed5-a6f7-0ea37da7268b",
+  "input": {
+    "media_urls": [
+      "https://cdn-us.eachlabs.ai/uploads/a1854bc5-f0d7-4ba5-9923-1e2202e29214.jpg"
+    ],
+    "prompt": "Identify the plant in this photograph.",
+    "response_mime_type": "application/json",
+    "response_schema": {
+      "properties": {
+        "alternatives": {
+          "items": {
+            "properties": {
+              "common_name": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "scientific_name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "common_name",
+              "scientific_name",
+              "confidence"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "care": {
+          "properties": {
+            "difficulty": {
+              "enum": [
+                "easy",
+                "moderate",
+                "hard"
+              ],
+              "type": "string"
+            },
+            "light": {
+              "properties": {
+                "detail": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "detail"
+              ],
+              "type": "object"
+            },
+            "soil": {
+              "properties": {
+                "detail": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "detail"
+              ],
+              "type": "object"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "water": {
+              "properties": {
+                "detail": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "detail"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "light",
+            "water",
+            "soil",
+            "difficulty",
+            "summary"
+          ],
+          "type": "object"
+        },
+        "common_name": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "is_plant": {
+          "type": "boolean"
+        },
+        "scientific_name": {
+          "type": "string"
+        },
+        "toxicity": {
+          "properties": {
+            "details": {
+              "type": "string"
+            },
+            "severity": {
+              "enum": [
+                "none",
+                "mild",
+                "serious"
+              ],
+              "type": "string"
+            },
+            "toxic_to_humans": {
+              "type": "boolean"
+            },
+            "toxic_to_pets": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "toxic_to_pets",
+            "toxic_to_humans",
+            "severity",
+            "details"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "is_plant",
+        "confidence",
+        "common_name",
+        "scientific_name",
+        "family",
+        "description",
+        "care",
+        "toxicity",
+        "alternatives"
+      ],
+      "type": "object"
+    },
+    "system_instruction": "You are a botanist identifying a plant from a single photograph.\n\nRules:\n- If the photo does not contain a plant, set is_plant to false, confidence to 0, and leave\n  every text field as an empty string. Do not invent a plant.\n- confidence is your calibrated probability that scientific_name is correct, from 0 to 1.\n  Be honest: a blurry leaf with no flowers rarely deserves more than 0.6.\n- alternatives holds up to three other species you seriously considered, most likely first,\n  never repeating the primary identification. Return an empty array if you are certain.\n- toxicity is the field people act on, so grade it precisely:\n    severity \"none\"    - no known toxicity; say so explicitly in details.\n    severity \"mild\"    - may cause temporary stomach upset if a quantity is eaten.\n                         Most plants belong here rather than in \"serious\".\n    severity \"serious\" - can cause real harm: organ damage, severe reaction, death.\n  Set toxic_to_pets and toxic_to_humans to false when severity is \"none\". Do not inflate\n  a mild irritant into a serious hazard, and do not soften a genuinely dangerous plant.\n- Write for a curious non-expert. No markdown, no bullet points, no lists.\n\nLength limits. These are read on a phone, so brevity is part of being correct:\n- care.light.value, care.water.value, care.soil.value: a label of at most FOUR words.\n  Write \"Bright indirect light\", \"Keep evenly moist\", \"Rich and free-draining\".\n  Never write a sentence here.\n- care.light.detail, care.water.detail, care.soil.detail: ONE sentence, at most 20 words,\n  specific to this species rather than generic houseplant advice.\n- care.summary: ONE sentence, at most 20 words.\n- description: at most TWO sentences.\n- toxicity.details: at most TWO sentences.",
+    "temperature": 0.2,
+    "thinking_budget": 0
+  },
+  "logs": null,
+  "status": "success",
+  "output": "{\n  \"is_plant\": true,\n  \"confidence\": 0.95,\n  \"common_name\": \"Forget-me-not\",\n  \"scientific_name\": \"Myosotis sylvatica\",\n  \"family\": \"Boraginaceae\",\n  \"description\": \"Forget-me-nots are small, charming annuals or short-lived perennials known for their clusters of tiny, five-petaled blue flowers with yellow centers. They often grow in woodlands and gardens, creating a carpet of delicate blooms.\",\n  \"care\": {\n    \"light\": {\n      \"value\": \"Partial shade to full sun\",\n      \"detail\": \"Forget-me-nots thrive in partial shade but can tolerate full sun in cooler climates.\"\n    },\n    \"water\": {\n      \"value\": \"Keep evenly moist\",\n      \"detail\": \"They prefer consistently moist soil, especially during dry periods.\"\n    },\n    \"soil\": {\n      \"value\": \"Well-draining, rich soil\",\n      \"detail\": \"Plant in fertile, humus-rich soil that drains well to prevent root rot.\"\n    },\n    \"difficulty\": \"easy\",\n    \"summary\": \"Easy to grow, these plants prefer moist soil and partial shade for best blooming.\"\n  },\n  \"toxicity\": {\n    \"toxic_to_pets\": true,\n    \"toxic_to_humans\": true,\n    \"severity\": \"mild\",\n    \"details\": \"Ingestion of Forget-me-nots may cause mild stomach upset in both humans and pets. Symptoms are generally not severe.\"\n  },\n  \"alternatives\": []\n}",
+  "metrics": {
+    "predict_time": 3.01397,
+    "cost": 0.0011134
+  },
+  "urls": {
+    "cancel": "https://api.eachlabs.ai/v1/prediction/71dc4b1e-6d8b-4ed5-a6f7-0ea37da7268b/cancel",
+    "get": "https://api.eachlabs.ai/v1/prediction/71dc4b1e-6d8b-4ed5-a6f7-0ea37da7268b"
+  }
+}

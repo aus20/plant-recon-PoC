@@ -1,0 +1,176 @@
+{
+  "id": "17f0fa5d-e2f6-4abd-a8c8-e16ce4966c55",
+  "input": {
+    "media_urls": [
+      "https://cdn-us.eachlabs.ai/uploads/a72f77b2-d867-4240-bf3e-66dee3c812c2.png"
+    ],
+    "prompt": "Identify the plant in this photograph.",
+    "response_mime_type": "application/json",
+    "response_schema": {
+      "properties": {
+        "alternatives": {
+          "items": {
+            "properties": {
+              "common_name": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "number"
+              },
+              "scientific_name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "common_name",
+              "scientific_name",
+              "confidence"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "care": {
+          "properties": {
+            "difficulty": {
+              "enum": [
+                "easy",
+                "moderate",
+                "hard"
+              ],
+              "type": "string"
+            },
+            "light": {
+              "properties": {
+                "detail": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "detail"
+              ],
+              "type": "object"
+            },
+            "soil": {
+              "properties": {
+                "detail": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "detail"
+              ],
+              "type": "object"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "water": {
+              "properties": {
+                "detail": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value",
+                "detail"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "light",
+            "water",
+            "soil",
+            "difficulty",
+            "summary"
+          ],
+          "type": "object"
+        },
+        "common_name": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "is_plant": {
+          "type": "boolean"
+        },
+        "scientific_name": {
+          "type": "string"
+        },
+        "toxicity": {
+          "properties": {
+            "details": {
+              "type": "string"
+            },
+            "severity": {
+              "enum": [
+                "none",
+                "mild",
+                "serious"
+              ],
+              "type": "string"
+            },
+            "toxic_to_humans": {
+              "type": "boolean"
+            },
+            "toxic_to_pets": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "toxic_to_pets",
+            "toxic_to_humans",
+            "severity",
+            "details"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "is_plant",
+        "confidence",
+        "common_name",
+        "scientific_name",
+        "family",
+        "description",
+        "care",
+        "toxicity",
+        "alternatives"
+      ],
+      "type": "object"
+    },
+    "system_instruction": "You are a botanist identifying a plant from a single photograph.\n\nRules:\n- If the photo does not contain a plant, set is_plant to false, confidence to 0, and leave\n  every text field as an empty string. Do not invent a plant.\n- confidence is your calibrated probability that scientific_name is correct, from 0 to 1.\n  Be honest: a blurry leaf with no flowers rarely deserves more than 0.6.\n- alternatives holds up to three other species you seriously considered, most likely first,\n  never repeating the primary identification. Return an empty array if you are certain.\n- toxicity is the field people act on, so grade it precisely:\n    severity \"none\"    - no known toxicity; say so explicitly in details.\n    severity \"mild\"    - may cause temporary stomach upset if a quantity is eaten.\n                         Most plants belong here rather than in \"serious\".\n    severity \"serious\" - can cause real harm: organ damage, severe reaction, death.\n  Set toxic_to_pets and toxic_to_humans to false when severity is \"none\". Do not inflate\n  a mild irritant into a serious hazard, and do not soften a genuinely dangerous plant.\n- Write for a curious non-expert. No markdown, no bullet points, no lists.\n\nLength limits. These are read on a phone, so brevity is part of being correct:\n- care.light.value, care.water.value, care.soil.value: a label of at most FOUR words.\n  Write \"Bright indirect light\", \"Keep evenly moist\", \"Rich and free-draining\".\n  Never write a sentence here.\n- care.light.detail, care.water.detail, care.soil.detail: ONE sentence, at most 20 words,\n  specific to this species rather than generic houseplant advice.\n- care.summary: ONE sentence, at most 20 words.\n- description: at most TWO sentences.\n- toxicity.details: at most TWO sentences.",
+    "temperature": 0.2,
+    "thinking_budget": 0
+  },
+  "logs": null,
+  "status": "success",
+  "output": "{\"is_plant\": false, \"confidence\": 0, \"common_name\": \"\", \"scientific_name\": \"\", \"family\": \"\", \"description\": \"\", \"care\": {\"light\": {\"value\": \"\", \"detail\": \"\"}, \"water\": {\"value\": \"\", \"detail\": \"\"}, \"soil\": {\"value\": \"\", \"detail\": \"\"}, \"difficulty\": \"easy\", \"summary\": \"\"}, \"toxicity\": {\"toxic_to_pets\": false, \"toxic_to_humans\": false, \"severity\": \"none\", \"details\": \"\"}, \"alternatives\": []}",
+  "metrics": {
+    "predict_time": 1.108661,
+    "cost": 0.0005134
+  },
+  "urls": {
+    "cancel": "https://api.eachlabs.ai/v1/prediction/17f0fa5d-e2f6-4abd-a8c8-e16ce4966c55/cancel",
+    "get": "https://api.eachlabs.ai/v1/prediction/17f0fa5d-e2f6-4abd-a8c8-e16ce4966c55"
+  }
+}
