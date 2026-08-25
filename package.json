@@ -1,0 +1,9 @@
+{
+  "name": "plant-identifier",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "identify": "node --env-file=.env scripts/identify.ts"
+  }
+}

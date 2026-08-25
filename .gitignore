@@ -1,0 +1,29 @@
+# Bağımlılıklar
+node_modules/
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Ortam değişkenleri — EachLabs anahtarı buraya girer, asla commit edilmez
+.env
+.env.*
+!.env.example
+
+# Asistan talimatları — yerel, teslimin parçası değil
+CLAUDE.md
+.claude/
+
+# macOS / editör
+.DS_Store
+*.log
+.idea/
+.vscode/
